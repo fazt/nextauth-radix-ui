@@ -2,6 +2,8 @@
 import { Flex, TextField, Button, Text } from "@radix-ui/themes";
 import { EnvelopeClosedIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { useForm, Controller } from "react-hook-form";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function SigninForm() {
   const {
@@ -12,11 +14,23 @@ function SigninForm() {
     values: {
       email: "",
       password: "",
-    }
+    },
   });
+  const router = useRouter();
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data);
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!res?.ok) {
+      console.log(res);
+    }
+
+    router.push("/dashboard");
   });
 
   console.log(errors);
@@ -73,7 +87,7 @@ function SigninForm() {
               minLength: {
                 message: "Password must be at least 6 characters",
                 value: 6,
-              }
+              },
             }}
             render={({ field }) => {
               return (
@@ -93,7 +107,9 @@ function SigninForm() {
           </Text>
         )}
 
-        <Button type="submit" mt="4">Sign In</Button>
+        <Button type="submit" mt="4">
+          Sign In
+        </Button>
       </Flex>
     </form>
   );
