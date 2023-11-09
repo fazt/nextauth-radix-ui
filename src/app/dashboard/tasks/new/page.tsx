@@ -9,6 +9,7 @@ import {
   Heading,
 } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
+import axios from 'axios'
 
 function TaskNewPage() {
   const { control, handleSubmit } = useForm({
@@ -18,8 +19,10 @@ function TaskNewPage() {
     }
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data);
+    const res = await axios.post(`/api/projects`, data)
+    console.log(res)
   });
 
   return (
