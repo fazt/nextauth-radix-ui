@@ -13,7 +13,8 @@ function LoginPage() {
             <SigninForm />
 
             <Flex justify="between" my="4">
-              <Text>Don't have an Account?</Text>
+              <Text>Don&apos;t have an Account?</Text>
+
               <Link asChild>
                 <NavLink href="/auth/register" passHref>
                   Sign Up
